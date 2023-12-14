@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Abather\MiniAccounting\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class MiniAccountingCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'mini-accounting';
 
     public $description = 'My command';
 
