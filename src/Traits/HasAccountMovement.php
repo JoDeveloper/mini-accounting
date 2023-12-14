@@ -3,6 +3,7 @@
 namespace Abather\MiniAccounting\Traits;
 
 use Abather\MiniAccounting\Models\AccountMovement;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -26,7 +27,8 @@ trait HasAccountMovement
 
     public function balanceAtEndOfMonth($date)
     {
-        $account_movement = $this->accountMovements()->whereMonth('created_at', $date)
+        $account_movement = $this->accountMovements()
+            ->where('created_at', "<=", Carbon::parse($date)->endOfMonth())
             ->orderByDesc('created_at')->first();
 
         return $account_movement ? $account_movement->balance : 0;
