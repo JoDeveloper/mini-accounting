@@ -34,12 +34,13 @@ trait HasAccountMovement
 
     private function createAccountMovement($type, $description, $amount, $reference, $notes = null, array $data = [])
     {
+        $factor = $type == AccountMovement::WITHDRAW ? -1 : 1;
         $account_movement = new AccountMovement;
         $account_movement->description = $description;
         $account_movement->amount = $amount;
         $account_movement->type = $type;
         $account_movement->previous_balance = $this->balance;
-        $account_movement->balance = $this->balance + $amount;
+        $account_movement->balance = $this->balance + ($amount * $factor);
         $account_movement->reference_id = $reference->id;
         $account_movement->reference_type = get_class($reference);
         $account_movement->data = $data;
