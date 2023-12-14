@@ -4,6 +4,7 @@ namespace Abather\MiniAccounting\Traits;
 
 use Abather\MiniAccounting\Models\AccountMovement;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait HasAccountMovement
 {
@@ -12,7 +13,7 @@ trait HasAccountMovement
         return $this->morphMany(AccountMovement::class, 'accountable');
     }
 
-    public function lastAccountMovement(): MorphMany
+    public function lastAccountMovement(): MorphOne
     {
         return $this->morphOne(AccountMovement::class, 'accountable')
             ->latestOfMany();
