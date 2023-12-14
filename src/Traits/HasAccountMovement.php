@@ -20,7 +20,7 @@ trait HasAccountMovement
 
     public function getBalanceAttribute()
     {
-        return $this->lastAccountMovement->balance;
+        return $this->lastAccountMovement ? $this->lastAccountMovement->balance : 0;
     }
 
     public function balanceAtEndOfMonth($date)
