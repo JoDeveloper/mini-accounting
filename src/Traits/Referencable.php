@@ -54,6 +54,7 @@ trait Referencable
     public function getRelated($related)
     {
         if ($related["type"] == "relation") {
+            logger($this->{$related["value"]});
             return $this->{$related["value"]};
         } elseif ($related["type"] == "model") {
             $related["model"]::find($related["value"]);
