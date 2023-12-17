@@ -42,7 +42,7 @@ trait Referencable
     {
         foreach ($this->create_transactions as $create_transaction) {
             $model = $this->{$this->getRelated($create_transaction['related'])};
-
+            dd($model);
             $model->{$create_transaction['type']}(
                 $create_transaction['description'],
                 $this->getAmount($create_transaction['calculation']),
