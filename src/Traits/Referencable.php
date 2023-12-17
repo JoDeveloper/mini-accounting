@@ -42,7 +42,7 @@ trait Referencable
     {
         foreach ($this->create_transactions as $create_transaction) {
             $model = $this->{$this->getRelated($create_transaction['related'])};
-            dd($model);
+            logger($model);
             $model->{$create_transaction['type']}(
                 $create_transaction['description'],
                 $this->getAmount($create_transaction['calculation']),
@@ -54,7 +54,6 @@ trait Referencable
     public function getRelated($related)
     {
         if ($related["type"] == "relation") {
-            logger($this->{$related["value"]});
             return $this->{$related["value"]};
         } elseif ($related["type"] == "model") {
             $related["model"]::find($related["value"]);
