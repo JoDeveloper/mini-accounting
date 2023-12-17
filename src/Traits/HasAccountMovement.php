@@ -36,6 +36,7 @@ trait HasAccountMovement
 
     private function createAccountMovement($type, $description, $amount, $reference, $notes = null, array $data = [])
     {
+
         $factor = $type == AccountMovement::WITHDRAW ? -1 : 1;
         $account_movement = new AccountMovement;
         $account_movement->description = $description;
