@@ -40,6 +40,7 @@ trait HasAccountMovement
         if (config("mini-accounting.prevent_duplication")) {
             throw_if($this->isDuplicated($reference, $type), new DuplicateEntryException);
         }
+
         $factor = $type == AccountMovement::WITHDRAW ? -1 : 1;
         $account_movement = new AccountMovement;
         $account_movement->description = $description;
