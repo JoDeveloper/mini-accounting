@@ -2,9 +2,9 @@
 
 namespace Abather\MiniAccounting;
 
+use Abather\MiniAccounting\Commands\MiniAccountingCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Abather\MiniAccounting\Commands\MiniAccountingCommand;
 
 class MiniAccountingServiceProvider extends PackageServiceProvider
 {

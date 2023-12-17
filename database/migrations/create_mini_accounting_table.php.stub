@@ -22,5 +22,16 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        if(config("mini-accounting.prevent_duplication")){
+            Schema::table('account_movements', function (Blueprint $table) {
+                 $table->unique([
+                        'accountable_type',
+                        'accountable_id',
+                        "reference_id",
+                        "reference_type", "type"
+                ], "unique_identifiers");
+            });
+        }
     }
 };

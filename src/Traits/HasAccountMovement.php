@@ -2,6 +2,7 @@
 
 namespace Abather\MiniAccounting\Traits;
 
+use Abather\MiniAccounting\Exceptions\DuplicateEntryException;
 use Abather\MiniAccounting\Models\AccountMovement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -36,7 +37,9 @@ trait HasAccountMovement
 
     private function createAccountMovement($type, $description, $amount, $reference, $notes = null, array $data = [])
     {
-
+        if (config("mini-accounting.prevent_duplication")) {
+            throw_if($this->isDuplicated($reference, $type), new DuplicateEntryException);
+        }
         $factor = $type == AccountMovement::WITHDRAW ? -1 : 1;
         $account_movement = new AccountMovement;
         $account_movement->description = $description;
@@ -74,5 +77,14 @@ trait HasAccountMovement
             $notes,
             $data
         );
+    }
+
+    private function isDuplicated($reference, $type)
+    {
+        return $this->accountMovements()
+            ->where('reference_id', $reference->id)
+            ->where('reference_type', get_class($reference))
+            ->where('type', $type)
+            ->exists();
     }
 }
