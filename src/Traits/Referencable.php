@@ -16,17 +16,6 @@ trait Referencable
 //    const CALCULATION_METHOD_EQUAL = "equal";
 //    const CALCULATION_METHOD_SUBTRACT = "subtract";
 
-    protected $create_transactions = [
-        [
-            "model",
-            "type",
-            "reference",
-            "calculation_method",
-            "factor",
-            "variable"
-        ]
-    ];
-
     public function accountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'referencable');
