@@ -31,7 +31,7 @@ class Account
         return $this->resource;
     }
 
-    public function setResource($resource): self
+    public function setResource($resource = null): self
     {
         if (filled($resource)) {
             //throw an error if the resource is not an instance of the model
@@ -80,6 +80,11 @@ class Account
     {
         $this->key = $key;
         return $this;
+    }
+
+    public function getCaller()
+    {
+        return $this->caller;
     }
 
     public function relationship($relation)

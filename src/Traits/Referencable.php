@@ -38,16 +38,10 @@ trait Referencable
         return $this->deposit - $this->withdraw;
     }
 
-    public function creationTransactions()
+    public function transactions()
     {
-        foreach ($this->create_transactions as $create_transaction) {
-            $model = $this->getRelated($create_transaction['related']);
-
-            $model->{$create_transaction['type']}(
-                $create_transaction['description'],
-                $this->getAmount($create_transaction['calculation']),
-                $this
-            );
+        foreach ($this->defaultTransactions() as $create_transaction) {
+            $create_transaction->generateAccountTransaction();
         }
     }
 

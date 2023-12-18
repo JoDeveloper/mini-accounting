@@ -48,6 +48,11 @@ class Transaction
         return $this;
     }
 
+    public function getAccount(): Account
+    {
+        return $this->account;
+    }
+
     public function setCalculation(Calculation $calculation): self
     {
         $this->calculation = $calculation;
@@ -57,5 +62,20 @@ class Transaction
     public static function make($type, $description): self
     {
         return new static($type, $description);
+    }
+
+    public function generateAccountTransaction(): bool
+    {
+        if (blank($this->account->getResource())) {
+            $this->account->setResource();
+        }
+
+        $model = $this->account->getResource();
+
+        return $model->{$this->getType()}(
+            $this->getDescription(),
+            $this->calculation->amount(),
+            $this->account->getCaller()
+        );
     }
 }
