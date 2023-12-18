@@ -10,7 +10,7 @@ trait Referencable
 {
     public function accountMovements(): MorphMany
     {
-        return $this->morphMany(AccountMovement::class, 'referencable');
+        return $this->morphMany(AccountMovement::class, 'reference');
     }
 
     private function createAccountMovement($type, $description, $amount, $account, $notes = null, array $data = [])
