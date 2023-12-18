@@ -7,15 +7,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Referencable
 {
-//    const FACTOR_TYPE_STATIC = "static";
-//    const FACTOR_TYPE_VARIABLE = "variable";
-//    const RELATED_TYPE_RELATION = "relation";
-//    const RELATED_TYPE_MODEL = "model";
-//    const CALCULATION_METHOD_MULTIPLICATION = "multiplication";
-//    const CALCULATION_METHOD_PERCENTAGE = "percentage";
-//    const CALCULATION_METHOD_EQUAL = "equal";
-//    const CALCULATION_METHOD_SUBTRACT = "subtract";
-
     public function accountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'referencable');
@@ -43,50 +34,5 @@ trait Referencable
         foreach ($this->defaultTransactions() as $create_transaction) {
             $create_transaction->generateAccountTransaction();
         }
-    }
-
-    public function getRelated($related)
-    {
-        if ($related["type"] == "relation") {
-            return $this->{$related["value"]};
-        } elseif ($related["type"] == "model") {
-            return $related["model"]::find($related["value"]);
-        } elseif ($related["type"] == "static") {
-            return $related["model"]::{$related["value"]}();
-        }
-        return null;
-    }
-
-    public function getAmount($calculation)
-    {
-        $base_amount = $this->{$calculation["variable"]};
-        $factor = $this->getFactor($calculation['factor']);
-        return $this->{$calculation['method']}($base_amount, $factor);
-    }
-
-    public function getFactor($factor)
-    {
-        if ($factor['type'] == "static") {
-            return $factor['value'];
-        } elseif ($factor['type'] == "variable") {
-            return $this->{$factor['value']};
-        }
-
-        return 0;
-    }
-
-    private function equal($base_amount, $factor = 0)
-    {
-        return $base_amount;
-    }
-
-    private function percentage($base_amount, $factor)
-    {
-        return $base_amount * ($factor / 100);
-    }
-
-    private function subtract($base_amount, $factor)
-    {
-        return $base_amount - $factor;
     }
 }
