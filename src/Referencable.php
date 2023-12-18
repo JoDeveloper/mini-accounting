@@ -10,10 +10,13 @@ interface Referencable
 
     public function transactions();
 
-    public function deposit();
+    public function deposit($description, $amount, $account, $notes = null, array $data = []);
 
-    public function withdraw();
+    public function withdraw($description, $amount, $account, $notes = null, array $data = []);
+
     public function getDepositAttribute();
+
     public function getBalanceAttribute();
+
     public function getWithdrawAttribute();
 }
