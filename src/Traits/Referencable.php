@@ -85,10 +85,19 @@ trait Referencable
         return $this->deposit - $this->withdraw;
     }
 
-    public function transactions()
+    public function executTransactions()
     {
         foreach ($this->defaultTransactions() as $create_transaction) {
             $create_transaction->generateAccountTransaction();
         }
+    }
+
+    private function isDuplicated($reference, $type)
+    {
+        return $this->accountMovements()
+            ->where('reference_id', $reference->id)
+            ->where('reference_type', get_class($reference))
+            ->where('type', $type)
+            ->exists();
     }
 }
