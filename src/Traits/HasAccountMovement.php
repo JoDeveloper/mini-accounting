@@ -23,6 +23,7 @@ trait HasAccountMovement
 
     public function getBalanceAttribute()
     {
+        $this->lastAccountMovement()->refresh();
         return $this->lastAccountMovement ? $this->lastAccountMovement->balance : 0;
     }
 
