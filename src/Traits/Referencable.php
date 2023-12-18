@@ -85,7 +85,7 @@ trait Referencable
         return $this->deposit - $this->withdraw;
     }
 
-    public function executTransactions()
+    public function executeTransactions()
     {
         foreach ($this->defaultTransactions() as $create_transaction) {
             $create_transaction->generateAccountTransaction();
