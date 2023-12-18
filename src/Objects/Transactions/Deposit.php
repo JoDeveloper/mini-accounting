@@ -4,8 +4,13 @@ namespace Abather\MiniAccounting\Objects\Transactions;
 
 class Deposit extends Transaction
 {
-    public function __construct($type, $description)
+    public function __construct($resource, $description)
     {
-        parent::__construct("deposit", $description);
+        parent::__construct("withdraw", $resource, $description);
+    }
+
+    public static function make($resource, $description): self
+    {
+        return new static($resource, $description);
     }
 }

@@ -14,16 +14,15 @@ class Account
     const TYPE_VARIABLE = "variable";
     const TYPE_STATIC = "static";
 
-    public function __construct($model, $caller, $resource = null)
+    public function __construct($model, $resource = null)
     {
-        $this->caller = $caller;
         $this->model = $model;
         $this->resource = $resource;
     }
 
-    public static function make($model, $caller, $resource = null)
+    public static function make($model, $resource = null)
     {
-        return new static($model, $caller);
+        return new static($model, $resource);
     }
 
     public function getResource()
@@ -79,6 +78,12 @@ class Account
     public function setKey($key): self
     {
         $this->key = $key;
+        return $this;
+    }
+
+    public function setCaller($caller): self
+    {
+        $this->caller = $caller;
         return $this;
     }
 

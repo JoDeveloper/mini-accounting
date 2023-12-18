@@ -5,17 +5,19 @@ namespace Abather\MiniAccounting\Objects\Transactions;
 use Abather\MiniAccounting\Objects\Account;
 use Abather\MiniAccounting\Objects\Calculations\Calculation;
 
-class Transaction
+abstract class Transaction
 {
     protected $type;
     protected $description;
+    protected $resource;
     protected Account $account;
     protected Calculation $calculation;
 
-    public function __construct($type, $description)
+    public function __construct($type, $resource, $description)
     {
         $this->type = $type;
         $this->description = $description;
+        $this->resource = $resource;
     }
 
     public function getType()
@@ -44,7 +46,7 @@ class Transaction
 
     public function setAccount(Account $account): self
     {
-        $this->account = $account;
+        $this->account = $account->setCaller($this);
         return $this;
     }
 
@@ -59,10 +61,7 @@ class Transaction
         return $this;
     }
 
-    public static function make($type, $description): self
-    {
-        return new static($type, $description);
-    }
+    abstract public static function make($resource, $description): self;
 
     public function generateAccountTransaction()
     {
