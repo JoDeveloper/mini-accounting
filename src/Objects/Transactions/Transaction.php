@@ -46,7 +46,7 @@ abstract class Transaction
 
     public function setAccount(Account $account): self
     {
-        $this->account = $account->setCaller($this);
+        $this->account = $account->setCaller($this->resource);
         return $this;
     }
 
