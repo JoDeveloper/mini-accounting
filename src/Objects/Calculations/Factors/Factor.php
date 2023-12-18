@@ -6,7 +6,7 @@ abstract class Factor
 {
     protected $type;
     const TYPE_STATIC = "static";
-    const TYPE_VARIABLE = "variable";
+    const TYPE_DYNAMIC = "dynamic";
 
     public function __construct($type = self::TYPE_STATIC)
     {

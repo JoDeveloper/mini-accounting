@@ -9,7 +9,7 @@ class DynamicFactor extends Factor
 
     public function __construct()
     {
-        Parent::__construct(Parent::TYPE_VARIABLE);
+        Parent::__construct(Parent::TYPE_DYNAMIC);
     }
 
     public function resource($resource, $attribute): self
