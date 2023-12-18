@@ -20,6 +20,11 @@ abstract class Transaction
         $this->resource = $resource;
     }
 
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
     public function getType()
     {
         return $this->type;
@@ -69,12 +74,10 @@ abstract class Transaction
             $this->account->setResource();
         }
 
-        $model = $this->account->getResource();
-
-        return $model->{$this->getType()}(
+        return $this->getResource()->{$this->getType()}(
             $this->getDescription(),
             $this->calculation->amount(),
-            $this->account->getCaller()
+            $this->account->setResource()
         );
     }
 }
