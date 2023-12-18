@@ -77,7 +77,7 @@ abstract class Transaction
         return $this->getResource()->{$this->getType()}(
             $this->getDescription(),
             $this->calculation->amount(),
-            $this->account->getResource()
+            $this->account->setResource()
         );
     }
 }

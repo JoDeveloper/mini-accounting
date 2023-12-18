@@ -24,8 +24,8 @@ trait Referencable
         $account_movement->description = $description;
         $account_movement->amount = $amount;
         $account_movement->type = $type;
-        $account_movement->previous_balance = $this->balance;
-        $account_movement->balance = $this->balance + ($amount * $factor);
+        $account_movement->previous_balance = $account->balance;
+        $account_movement->balance = $account->balance + ($amount * $factor);
         $account_movement->accountable_id = $account->id;
         $account_movement->accountable_type = get_class($account);
         $account_movement->data = $data;
