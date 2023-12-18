@@ -1,6 +1,6 @@
 <?php
 
-namespace Abather\MiniAccounting;
+namespace Abather\MiniAccounting\Contracts;
 
 interface Referencable
 {
