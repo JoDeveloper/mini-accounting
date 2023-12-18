@@ -64,7 +64,7 @@ class Transaction
         return new static($type, $description);
     }
 
-    public function generateAccountTransaction(): bool
+    public function generateAccountTransaction()
     {
         if (blank($this->account->getResource())) {
             $this->account->setResource();

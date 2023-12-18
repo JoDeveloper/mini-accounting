@@ -47,13 +47,13 @@ class Account
 
         switch ($this->type) {
             case self::TYPE_RELATION:
-                $this->resource = $this->related->{$this->getRelation()};
+                $this->resource = $this->getCaller()->{$this->getRelation()};
                 break;
             case self::TYPE_VARIABLE:
-                $this->resource = $this->model::find($this->related->{$this->getRelation()});
+                $this->resource = $this->model::find($this->getCaller()->{$this->getRelation()});
                 break;
             case self::TYPE_STATIC:
-                $this->resource = $this->model::find($this->related->{$this->key});
+                $this->resource = $this->model::find($this->key);
                 break;
         }
 
