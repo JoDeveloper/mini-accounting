@@ -3,12 +3,14 @@
 namespace Abather\MiniAccounting\Objects\Transactions;
 
 use Abather\MiniAccounting\Objects\Account;
+use Abather\MiniAccounting\Objects\Calculations\Calculation;
 
 class Transaction
 {
     protected $type;
     protected $description;
     protected Account $account;
+    protected Calculation $calculation;
 
     public function __construct($type, $description)
     {
@@ -43,6 +45,12 @@ class Transaction
     public function setAccount(Account $account): self
     {
         $this->account = $account;
+        return $this;
+    }
+
+    public function setCalculation(Calculation $calculation): self
+    {
+        $this->calculation = $calculation;
         return $this;
     }
 
