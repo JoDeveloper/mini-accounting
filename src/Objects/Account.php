@@ -82,21 +82,24 @@ class Account
         return $this;
     }
 
-    public function relationship()
+    public function relationship($relation)
     {
         $this->type = self::TYPE_RELATION;
+        $this->relation = $relation;
         return $this;
     }
 
-    public function variable()
+    public function variable($varible)
     {
         $this->type = self::TYPE_VARIABLE;
+        $this->relation = $varible;
         return $this;
     }
 
-    public function static()
+    public function static($key)
     {
         $this->type = self::TYPE_STATIC;
+        $this->key = $key;
         return $this;
     }
 }

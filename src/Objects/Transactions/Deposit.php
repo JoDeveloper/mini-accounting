@@ -1,6 +1,6 @@
 <?php
 
-namespace Abather\MiniAccounting\Objects;
+namespace Abather\MiniAccounting\Objects\Transactions;
 
 class Deposit extends Transaction
 {

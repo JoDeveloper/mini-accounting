@@ -1,6 +1,8 @@
 <?php
 
-namespace Abather\MiniAccounting\Objects;
+namespace Abather\MiniAccounting\Objects\Transactions;
+
+use Abather\MiniAccounting\Objects\Account;
 
 class Transaction
 {
