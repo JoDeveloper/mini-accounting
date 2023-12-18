@@ -8,7 +8,7 @@ abstract class Calculation
 {
     protected $type;
     protected Factor $factor;
-    protected $variable;
+    protected $attribute;
     protected $resource;
     const TYPE_EQUAL = 'equal';
     const TYPE_PERCENTAGE = 'percentage';
@@ -20,10 +20,10 @@ abstract class Calculation
         $this->type = $type;
     }
 
-    public function resource($resource, $variable): self
+    public function resource($resource, $attribute): self
     {
         $this->resource = $resource;
-        $this->variable = $variable;
+        $this->attribute = $attribute;
         return $this;
     }
 

@@ -16,6 +16,6 @@ class Equal extends Calculation
 
     public function amount(): float
     {
-        return $this->resource->{$this->variable};
+        return $this->resource->{$this->attribute};
     }
 }

@@ -17,7 +17,7 @@ class Percentage extends Calculation
 
     public function amount(): float
     {
-        $amount = $this->resource->{$this->variable};
+        $amount = $this->resource->{$this->attribute};
         $amount = $amount / 100;
         return $amount * $this->factor->factor();
     }

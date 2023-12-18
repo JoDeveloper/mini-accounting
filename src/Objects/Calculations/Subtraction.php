@@ -16,7 +16,7 @@ class Subtraction extends Calculation
 
     public function amount(): float
     {
-        $amount = $this->resource->{$this->variable};
+        $amount = $this->resource->{$this->attribute};
         return $amount - $this->factor->factor();
     }
 }

@@ -2,20 +2,20 @@
 
 namespace Abather\MiniAccounting\Objects\Calculations\Factors;
 
-class VariableFactor extends Factor
+class DynamicFactor extends Factor
 {
     protected $resource;
-    protected $variable;
+    protected $attribute;
 
     public function __construct()
     {
         Parent::__construct(Parent::TYPE_VARIABLE);
     }
 
-    public function resource($resource, $variable): self
+    public function resource($resource, $attribute): self
     {
         $this->resource = $resource;
-        $this->variable = $variable;
+        $this->attribute = $attribute;
         return $this;
     }
 
@@ -26,6 +26,6 @@ class VariableFactor extends Factor
 
     public function factor(): float
     {
-        return $this->resource->{$this->variable};
+        return $this->resource->{$this->attribute};
     }
 }
