@@ -92,11 +92,11 @@ trait Referencable
         }
     }
 
-    private function isDuplicated($reference, $type)
+    private function isDuplicated($account, $type)
     {
         return $this->accountMovements()
-            ->where('reference_id', $reference->id)
-            ->where('reference_type', get_class($reference))
+            ->where('accountable_id', $account->id)
+            ->where('accountable_type', get_class($account))
             ->where('type', $type)
             ->exists();
     }
