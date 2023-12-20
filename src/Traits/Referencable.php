@@ -85,9 +85,20 @@ trait Referencable
         return $this->deposit - $this->withdraw;
     }
 
-    public function executeTransactions()
+    public function __call($method, $parameters)
     {
-        foreach ($this->defaultTransactions() as $create_transaction) {
+        if (str_starts_with("execute", $method) && str_ends_with("Transactions", $method)) {
+            $method = str_replace("execute", "", $method);
+            $method = lcfirst($method);
+            return $this->executeTransactions($method);
+        }
+
+        return $this->accountMovements()->{$method}(...$parameters);
+    }
+
+    public function executeTransactions($transactions = "defaultTransactions")
+    {
+        foreach ($this->{$transactions}() as $create_transaction) {
             $create_transaction->generateAccountTransaction();
         }
     }
