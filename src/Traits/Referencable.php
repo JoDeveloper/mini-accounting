@@ -16,7 +16,7 @@ trait Referencable
             return $this->executeTransactions($method);
         }
 
-        return $this->{$method}(...$parameters);
+        return parent::__call($method, $parameters);
     }
 
     public function accountMovements(): MorphMany

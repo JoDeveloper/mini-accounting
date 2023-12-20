@@ -16,7 +16,7 @@ trait HasAccountMovement
             return $this->createAccountMovement($method, ...$parameters);
         }
 
-        return $this->{$method}(...$parameters);
+        return parent::__call($method, $parameters);
     }
 
     public function accountMovements(): MorphMany
@@ -27,13 +27,13 @@ trait HasAccountMovement
     public function depositAccountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable')
-            ->where("type", "DEPOSIT");
+            ->whereType("DEPOSIT");
     }
 
     public function withdrawAccountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable')
-            ->where("type", "WITHDRAW");
+            ->whereType("WITHDRAW");
     }
 
     public function lastAccountMovement(): MorphOne
@@ -77,30 +77,6 @@ trait HasAccountMovement
 
         return $this->accountMovements()->save($account_movement);
     }
-
-//    public function withdraw($description, $amount, $reference, $notes = null, array $data = [])
-//    {
-//        return $this->createAccountMovement(
-//            AccountMovement::WITHDRAW,
-//            $description,
-//            $amount,
-//            $reference,
-//            $notes,
-//            $data
-//        );
-//    }
-//
-//    public function deposit($description, $amount, $reference, $notes = null, array $data = [])
-//    {
-//        return $this->createAccountMovement(
-//            AccountMovement::DEPOSIT,
-//            $description,
-//            $amount,
-//            $reference,
-//            $notes,
-//            $data
-//        );
-//    }
 
     private function isDuplicated($reference, $type)
     {
