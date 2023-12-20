@@ -87,15 +87,13 @@ trait Referencable
 
     public function __call($method, $parameters)
     {
-        logger("$method");
         if (str_starts_with($method, "execute") && str_ends_with($method, "Transactions")) {
             $method = str_replace("execute", "", $method);
             $method = lcfirst($method);
-            logger("$method");
             return $this->executeTransactions($method);
         }
 
-        return $this->accountMovements()->{$method}(...$parameters);
+        return $this->{$method}(...$parameters);
     }
 
     public function executeTransactions($transactions = "defaultTransactions")
