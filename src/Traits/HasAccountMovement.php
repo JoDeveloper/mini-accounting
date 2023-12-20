@@ -15,6 +15,18 @@ trait HasAccountMovement
         return $this->morphMany(AccountMovement::class, 'accountable');
     }
 
+    public function DepositAccountMovements(): MorphMany
+    {
+        return $this->morphMany(AccountMovement::class, 'accountable')
+            ->where("type", "deposit");
+    }
+
+    public function WithdrawAccountMovements(): MorphMany
+    {
+        return $this->morphMany(AccountMovement::class, 'accountable')
+            ->where("type", "withdraw");
+    }
+
     public function lastAccountMovement(): MorphOne
     {
         return $this->morphOne(AccountMovement::class, 'accountable')
