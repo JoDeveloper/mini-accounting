@@ -75,8 +75,10 @@ class AccountTest extends TestCase
             $user->deposit("new deposit", $refund->amount, $refund);
         }
 
-        $deposit = $user->depositAccountMovements()->sum("amount");
-        $withdraw = $user->withdrawAccountMovements()->sum("amount");
+        $deposit = $user->depositAccountMovements()->sum("amount") / pow(10,
+                config("mini-accounting.currency_precision"));
+        $withdraw = $user->withdrawAccountMovements()->sum("amount") / pow(10,
+                config("mini-accounting.currency_precision"));
 
         $this->assertTrue($user->balance == ($deposit - $withdraw));
     }

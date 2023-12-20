@@ -2,6 +2,7 @@
 
 namespace Abather\MiniAccounting\Models;
 
+use Abather\MiniAccounting\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -11,8 +12,9 @@ class AccountMovement extends Model
     const DEPOSIT = 'DEPOSIT';
     protected $casts = [
         "data" => "array",
-        "balance" => "integer",
-        "previous_balance" => "integer",
+        "amount" => MoneyCast::class,
+        "balance" => MoneyCast::class,
+        "previous_balance" => MoneyCast::class,
     ];
 
     public function accountable(): morphTo
