@@ -87,9 +87,11 @@ trait Referencable
 
     public function __call($method, $parameters)
     {
+        logger("$method");
         if (str_starts_with("execute", $method) && str_ends_with("Transactions", $method)) {
             $method = str_replace("execute", "", $method);
             $method = lcfirst($method);
+            logger("$method");
             return $this->executeTransactions($method);
         }
 
