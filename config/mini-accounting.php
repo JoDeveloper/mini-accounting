@@ -8,5 +8,10 @@ return [
      * You have to config it before migration.
      **/
     "prevent_duplication" => true,
+
+    /***
+     * This is the precision for your currency.
+     * You should not change this if you already have records in your account transactions table.
+     */
     "currency_precision" => 2
 ];
