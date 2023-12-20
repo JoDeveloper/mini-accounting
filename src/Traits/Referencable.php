@@ -16,6 +16,10 @@ trait Referencable
             return $this->executeTransactions($method);
         }
 
+        if (in_array($method, ["deposit", 'withdraw'])) {
+            return $this->createAccountMovement(strtoupper($method), ...$parameters);
+        }
+
         return parent::__call($method, $parameters);
     }
 
@@ -43,40 +47,6 @@ trait Referencable
         $account_movement->notes = $notes;
 
         return $this->accountMovements()->save($account_movement);
-    }
-
-    public function deposit(
-        $description,
-        $amount,
-        $account,
-        $notes = null,
-        array $data = []
-    ) {
-        return $this->createAccountMovement(
-            AccountMovement::DEPOSIT,
-            $description,
-            $amount,
-            $account,
-            $notes,
-            $data
-        );
-    }
-
-    public function withdraw(
-        $description,
-        $amount,
-        $account,
-        $notes = null,
-        array $data = []
-    ) {
-        return $this->createAccountMovement(
-            AccountMovement::WITHDRAW,
-            $description,
-            $amount,
-            $account,
-            $notes,
-            $data
-        );
     }
 
     public function getDepositAttribute()

@@ -13,7 +13,7 @@ trait HasAccountMovement
     public function __call($method, $parameters)
     {
         if (in_array($method, ["deposit", 'withdraw'])) {
-            return $this->createAccountMovement($method, ...$parameters);
+            return $this->createAccountMovement(strtoupper($method), ...$parameters);
         }
 
         return parent::__call($method, $parameters);
@@ -27,13 +27,13 @@ trait HasAccountMovement
     public function depositAccountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable')
-            ->whereType("DEPOSIT");
+            ->whereType(AccountMovement::DEPOSIT);
     }
 
     public function withdrawAccountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable')
-            ->whereType("WITHDRAW");
+            ->whereType(AccountMovement::WITHDRAW);
     }
 
     public function lastAccountMovement(): MorphOne

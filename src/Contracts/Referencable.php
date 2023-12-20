@@ -8,11 +8,7 @@ interface Referencable
 
     public function defaultTransactions();
 
-    public function executeTransactions();
-
-    public function deposit($description, $amount, $account, $notes = null, array $data = []);
-
-    public function withdraw($description, $amount, $account, $notes = null, array $data = []);
+    public function executeTransactions($transaction = "defaultTransactions");
 
     public function getDepositAttribute();
 
