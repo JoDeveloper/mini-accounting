@@ -10,21 +10,30 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait HasAccountMovement
 {
+    public function __call($method, $parameters)
+    {
+        if (in_array($method, ["deposit", 'withdraw'])) {
+            return $this->createAccountMovement($method, ...$parameters);
+        }
+
+        return $this->{$method}(...$parameters);
+    }
+
     public function accountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable');
     }
 
-    public function DepositAccountMovements(): MorphMany
+    public function depositAccountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable')
-            ->where("type", "deposit");
+            ->where("type", "DEPOSIT");
     }
 
-    public function WithdrawAccountMovements(): MorphMany
+    public function withdrawAccountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'accountable')
-            ->where("type", "withdraw");
+            ->where("type", "WITHDRAW");
     }
 
     public function lastAccountMovement(): MorphOne
@@ -69,29 +78,29 @@ trait HasAccountMovement
         return $this->accountMovements()->save($account_movement);
     }
 
-    public function withdraw($description, $amount, $reference, $notes = null, array $data = [])
-    {
-        return $this->createAccountMovement(
-            AccountMovement::WITHDRAW,
-            $description,
-            $amount,
-            $reference,
-            $notes,
-            $data
-        );
-    }
-
-    public function deposit($description, $amount, $reference, $notes = null, array $data = [])
-    {
-        return $this->createAccountMovement(
-            AccountMovement::DEPOSIT,
-            $description,
-            $amount,
-            $reference,
-            $notes,
-            $data
-        );
-    }
+//    public function withdraw($description, $amount, $reference, $notes = null, array $data = [])
+//    {
+//        return $this->createAccountMovement(
+//            AccountMovement::WITHDRAW,
+//            $description,
+//            $amount,
+//            $reference,
+//            $notes,
+//            $data
+//        );
+//    }
+//
+//    public function deposit($description, $amount, $reference, $notes = null, array $data = [])
+//    {
+//        return $this->createAccountMovement(
+//            AccountMovement::DEPOSIT,
+//            $description,
+//            $amount,
+//            $reference,
+//            $notes,
+//            $data
+//        );
+//    }
 
     private function isDuplicated($reference, $type)
     {

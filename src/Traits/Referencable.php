@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Referencable
 {
+    public function __call($method, $parameters)
+    {
+        if (str_starts_with($method, "execute") && str_ends_with($method, "Transactions")) {
+            $method = str_replace("execute", "", $method);
+            $method = lcfirst($method);
+            return $this->executeTransactions($method);
+        }
+
+        return $this->{$method}(...$parameters);
+    }
+
     public function accountMovements(): MorphMany
     {
         return $this->morphMany(AccountMovement::class, 'reference');
@@ -83,17 +94,6 @@ trait Referencable
     public function getBalanceAttribute()
     {
         return $this->deposit - $this->withdraw;
-    }
-
-    public function __call($method, $parameters)
-    {
-        if (str_starts_with($method, "execute") && str_ends_with($method, "Transactions")) {
-            $method = str_replace("execute", "", $method);
-            $method = lcfirst($method);
-            return $this->executeTransactions($method);
-        }
-
-        return $this->{$method}(...$parameters);
     }
 
     public function executeTransactions($transactions = "defaultTransactions")
