@@ -9,9 +9,9 @@ class Addition extends Calculation
         parent::__construct(self::TYPE_ADDITION);
     }
 
-    public static function make(): self
+    public static function make($resource, $attribute): \Abather\MiniAccounting\Objects\Calculations\Calculation
     {
-        return new self();
+        return (new self())->resource($resource, $attribute);
     }
 
     public function amount(): float

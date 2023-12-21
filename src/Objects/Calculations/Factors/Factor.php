@@ -13,7 +13,7 @@ abstract class Factor
         $this->type = $type;
     }
 
-    abstract public static function make(): self;
+    abstract public static function make(...$parameter): self;
 
     abstract public function factor(): float;
 }
