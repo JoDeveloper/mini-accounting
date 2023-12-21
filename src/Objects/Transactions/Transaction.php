@@ -4,6 +4,7 @@ namespace Abather\MiniAccounting\Objects\Transactions;
 
 use Abather\MiniAccounting\Objects\Account;
 use Abather\MiniAccounting\Objects\Calculations\Calculation;
+use Abather\MiniAccounting\Objects\Data;
 
 abstract class Transaction
 {
@@ -12,6 +13,8 @@ abstract class Transaction
     protected $resource;
     protected Account $account;
     protected Calculation $calculation;
+    protected Data $data;
+    protected ?string $notes;
 
     public function __construct($type, $resource, $description)
     {
@@ -71,6 +74,28 @@ abstract class Transaction
         return $this->calculation;
     }
 
+    public function setData(Data $data): self
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+    public function getData(): Data|null
+    {
+        return $this->data ?? null;
+    }
+
+    public function setNotes($notes): self
+    {
+        $this->notes = $notes;
+        return $this;
+    }
+
+    public function getNotes(): string|null
+    {
+        return $this->notes ?? null;
+    }
+
     abstract public static function make($resource, $description): self;
 
     public function generateAccountTransaction()
@@ -82,7 +107,9 @@ abstract class Transaction
         return $this->getResource()->{$this->getType()}(
             $this->getDescription(),
             $this->calculation->amount(),
-            $this->account->getResource()
+            $this->account->getResource(),
+            $this->getNotes() ?? null,
+            $this->getData() ? $this->getData()->toArray() : []
         );
     }
 }

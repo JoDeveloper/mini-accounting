@@ -40,4 +40,39 @@ class ReferenceTest extends TestCase
         $user = $bill->user;
         $this->assertTrue($bill->amount == $user->lastAccountMovement->amount);
     }
+
+    public function test_transactions_with_data_defined()
+    {
+        $bill = Bill::factory()->create();
+        $bill->data = [
+            "test" => "test value",
+            "test2" => "test value 2"
+        ];
+
+        $bill->save();
+
+        $bill->executeWithDataTransactions();
+        $bill->refresh();
+
+        $user = $bill->user;
+        $transaction = $user->lastAccountMovement;
+
+        $this->assertTrue($bill->data === $transaction->data);
+    }
+
+    public function test_transactions_with_collection_data_defined()
+    {
+        $bill = Bill::factory()->create();
+
+        $bill->save();
+
+        $bill->executeWithCollectionDataTransactions();
+        $bill->refresh();
+
+        $user = $bill->user;
+        $transaction = $user->lastAccountMovement;
+
+        $this->assertIsArray($transaction->data);
+        $this->assertTrue(count($transaction->data) > 0);
+    }
 }
