@@ -20,7 +20,7 @@ abstract class Calculation
         $this->type = $type;
     }
 
-    public function resource($resource, $attribute): self
+    protected function resource($resource, $attribute): self
     {
         $this->resource = $resource;
         $this->attribute = $attribute;
@@ -33,7 +33,7 @@ abstract class Calculation
         return $this;
     }
 
-    abstract public static function make(): self;
+    abstract public static function make($resource, $attribute): self;
 
     abstract public function amount(): float;
 }

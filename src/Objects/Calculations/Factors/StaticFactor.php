@@ -6,20 +6,24 @@ class StaticFactor extends Factor
 {
     protected $value;
 
-    public function __construct()
+    public function __construct($value)
     {
+        $this->value($value);
         Parent::__construct(Parent::TYPE_STATIC);
     }
 
-    public function value($value): self
+    private function value($value): self
     {
         $this->value = $value;
         return $this;
     }
 
-    public static function make(): self
+    public static function make(...$parameters): self
     {
-        return new self();
+        if(count($parameters) !== 1) {
+            throw new \Exception('Invalid parameters');
+        }
+        return new self(...$parameters);
     }
 
     public function factor(): float
