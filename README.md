@@ -1,8 +1,6 @@
 # Create accounts for any model to withdraw and deposit to it
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/abather/mini-accounting.svg?style=flat-square)](https://packagist.org/packages/abather/mini-accounting)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/abather/mini-accounting/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/abather/mini-accounting/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/abather/mini-accounting/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/abather/mini-accounting/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/abather/mini-accounting.svg?style=flat-square)](https://packagist.org/packages/abather/mini-accounting)
 
 ## Adding an Account to Your Models and Tracking Transactions
