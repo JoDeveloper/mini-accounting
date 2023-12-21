@@ -66,6 +66,11 @@ abstract class Transaction
         return $this;
     }
 
+    public function getCalculation(): Calculation
+    {
+        return $this->calculation;
+    }
+
     abstract public static function make($resource, $description): self;
 
     public function generateAccountTransaction()

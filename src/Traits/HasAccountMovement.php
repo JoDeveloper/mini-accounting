@@ -38,6 +38,7 @@ trait HasAccountMovement
 
     public function lastAccountMovement(): MorphOne
     {
+        $this->refresh();
         return $this->morphOne(AccountMovement::class, 'accountable')
             ->latestOfMany();
     }
