@@ -7,7 +7,8 @@
 
 ## Adding an Account to Your Models and Tracking Transactions
 
-To seamlessly integrate account functionality into your Laravel models and keep track of transactions, follow the steps outlined below.
+To seamlessly integrate account functionality into your Laravel models and keep track of transactions, follow the steps
+outlined below.
 
 ### Installation
 
@@ -41,7 +42,8 @@ return [
 
 ### Usage
 
-This package links two entities: **Accountable** (a model with an account) and **Referencable** (a document triggering account deposits or withdrawals).
+This package links two entities: **Accountable** (a model with an account) and **Referencable** (a document triggering
+account deposits or withdrawals).
 
 #### Accountable:
 
@@ -84,9 +86,20 @@ $system->balance
 You can also retrieve the model's balance at the end of any month:
 
 ```php
-$system->balanceAtEndOfMonth("2023-10-01")
+$system->balanceAtEndOfMonth(10)
 // Returns the system balance at the end of month 10
 ```
+
+you can also pass the year for this function if you went any year other than this year `balanceAtEndOfMonth(6, 1990)`
+
+also you can get the balance for any given year:
+
+```php
+$system->balanceAtEndOfYear()
+// Returns the system balance at the end of this year
+```
+
+as end of month balance you can specify the year `balanceAtEndOfYear(1990)`
 
 #### Referencable:
 
@@ -113,7 +126,10 @@ class Bill extends Model implements Referencable
 }
 ```
 
-Define the `defaultTransactions(): array` method. This method will be described later. Similar to the accountable model, you can deposit and withdraw from the referencable model, affecting different accounts simultaneously. For example, when a user buys from a market, the bill will deposit the amount into the market's account and withdraw the same amount from the user's account:
+Define the `defaultTransactions(): array` method. This method will be described later. Similar to the accountable model,
+you can deposit and withdraw from the referencable model, affecting different accounts simultaneously. For example, when
+a user buys from a market, the bill will deposit the amount into the market's account and withdraw the same amount from
+the user's account:
 
 ```php
 $bill = Bill::first();
@@ -156,20 +172,24 @@ public function defaultTransactions(): array
 }
 ```
 
-For each object (either `Deposit` or `Withdraw`), set the affected account and the calculation method used to determine the transaction amount.
+For each object (either `Deposit` or `Withdraw`), set the affected account and the calculation method used to determine
+the transaction amount.
 
 ##### Account:
 
-Refer to the desired account in three ways: direct relationship from the current model, using a foreign key from the current model, or giving it any ID for reference:
+Refer to the desired account in three ways: direct relationship from the current model, using a foreign key from the
+current model, or giving it any ID for reference:
 
 ```php
 Account::make(\App\Models\Market::class)->relationship("market");
 ```
 
-In this example, specify the model in the `make` method; during calculation, the account will be the market linked with the current entity (`$bill->market`). Other settings include:
+In this example, specify the model in the `make` method; during calculation, the account will be the market linked with
+the current entity (`$bill->market`). Other settings include:
 
 - `variable('market_id')`: Provide any key from your model referring to the entity (`$bill->market_id`).
-- `static(3)`: Lock the record with the ID `3`. Also, pass a second parameter to the `make()` method to specify the entity being referred to:
+- `static(3)`: Lock the record with the ID `3`. Also, pass a second parameter to the `make()` method to specify the
+  entity being referred to:
 
 ```php
 Account::make(\App\Models\Market::class, $this->market)
@@ -186,12 +206,17 @@ For calculation, use the following objects:
 - `Abather\MiniAccounting\Objects\Calculations\Addition`
 - `Abather\MiniAccounting\Objects\Calculations\Percentage`
 
-For each object, provide `resource($resource, $attribute)`. In our previous example, `resource($this, "amount")` means the calculation will be on `$bill->amount`. Except for `Equal`, you must also define `factor`, which is the other side of each equation. `Factor` can be either dynamic or a static value:
+For each object, provide `resource($resource, $attribute)`. In our previous example, `resource($this, "amount")` means
+the calculation will be on `$bill->amount`. Except for `Equal`, you must also define `factor`, which is the other side
+of each equation. `Factor` can be either dynamic or a static value:
 
 - `StaticFactor::make()->value(10)`: The other side of the equation is 10 (e.g., `$bill->amount - 10`).
 - `DynamicFactor::make()->resource($this, 'percentage')`: The other side of the equation is `$bill->percentage`.
 
-After defining `defaultTransactions()`, use it by calling `executeDefaultTransactions()`. You are free to define as many `transactions` methods as needed. Keep in mind that the name of each method should end with `Transactions`, and you can run these transactions by calling the function with "execute" at the beginning of the method name (e.g., `cancelTransactions()` runs transactions using `executeCancelTransactions()`).
+After defining `defaultTransactions()`, use it by calling `executeDefaultTransactions()`. You are free to define as
+many `transactions` methods as needed. Keep in mind that the name of each method should end with `Transactions`, and you
+can run these transactions by calling the function with "execute" at the beginning of the method name (
+e.g., `cancelTransactions()` runs transactions using `executeCancelTransactions()`).
 
 **Note:**
 If you ever use `__call($method, $parameters)` in
@@ -232,7 +257,9 @@ public function __call($method, $parameters)
 }
 ```
 
-This documentation pertains to a Laravel package designed to enhance models' capabilities by linking them to their accounts. Additionally, it establishes links with other models to serve as reference documents, such as bills or refunds.
+This documentation pertains to a Laravel package designed to enhance models' capabilities by linking them to their
+accounts. Additionally, it establishes links with other models to serve as reference documents, such as bills or
+refunds.
 
 ## Testing
 

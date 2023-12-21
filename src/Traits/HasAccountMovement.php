@@ -48,10 +48,23 @@ trait HasAccountMovement
         return $this->lastAccountMovement ? $this->lastAccountMovement->balance : 0;
     }
 
-    public function balanceAtEndOfMonth($date)
+    public function balanceAtEndOfMonth($month, $year = null)
     {
+        $date = (Carbon::create($year ?: Carbon::now()->year, $month))->endOfMonth();
+
         $account_movement = $this->accountMovements()
-            ->where('created_at', "<=", Carbon::parse($date)->endOfMonth())
+            ->where('created_at', "<=", $date)
+            ->orderByDesc('created_at')->first();
+
+        return $account_movement ? $account_movement->balance : 0;
+    }
+
+    public function balanceAtEndOfYear($year = null)
+    {
+        $date = (Carbon::create($year ?: Carbon::now()->year))->endOfYear();
+
+        $account_movement = $this->accountMovements()
+            ->where('created_at', "<=", $date)
             ->orderByDesc('created_at')->first();
 
         return $account_movement ? $account_movement->balance : 0;
