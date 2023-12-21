@@ -9,9 +9,9 @@ class Subtraction extends Calculation
         parent::__construct(self::TYPE_SUBTRACTION);
     }
 
-    public static function make(): \Abather\MiniAccounting\Objects\Calculations\Calculation
+    public static function make($resource, $attribute): \Abather\MiniAccounting\Objects\Calculations\Calculation
     {
-        return new self();
+        return (new self())->resource($resource, $attribute);
     }
 
     public function amount(): float

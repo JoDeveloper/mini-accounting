@@ -1,4 +1,4 @@
-# Create accounts for any model to withdraw and deposit to it.
+# Create accounts for any model to withdraw and deposit to it
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/abather/mini-accounting.svg?style=flat-square)](https://packagist.org/packages/abather/mini-accounting)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/abather/mini-accounting/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/abather/mini-accounting/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -60,7 +60,7 @@ use Illuminate\Database\Eloquent\Model;
 class System extends Model
 {
     use HasAccountMovement;
-    
+
     // Your code
 }
 ```
@@ -155,19 +155,23 @@ public function defaultTransactions(): array
     return [
         Withdraw::make($this, "description")
             ->setAccount(Account::make(\App\Models\User::class)->relationship("user"))
-            ->setCalculation(Equal::make()->resource($this, "amount")),
+            ->setCalculation(Equal::make($this, "amount")),
 
         Deposit::make($this, "any description")
             ->setAccount(Account::make(\App\Models\Market::class)->relationship("market"))
-            ->setCalculation(Equal::make()->resource($this, "amount")),
+            ->setCalculation(Equal::make($this, "amount")),
 
         Withdraw::make($this, "other description")
             ->setAccount(Account::make(\App\Models\Market::class)->relationship("market"))
-            ->setCalculation(Percentage::make()->resource($this, "amount")->factor(StaticFactor::make()->value(10))),
+            ->setCalculation(Percentage::make($this, "amount")
+                                ->factor(StaticFactor::make(10))
+            ),
 
         Deposit::make($this, "other description")
             ->setAccount(Account::make(\App\Models\System::class, System::first()))
-            ->setCalculation(Percentage::make()->resource($this, "amount")->factor(DynamicFactor::make()->resource($this, 'percentage'))),
+            ->setCalculation(Percentage::make($this, "amount")
+                                 ->factor(DynamicFactor::make($this, 'percentage'))
+            ),
     ];
 }
 ```
@@ -187,9 +191,9 @@ Account::make(\App\Models\Market::class)->relationship("market");
 In this example, specify the model in the `make` method; during calculation, the account will be the market linked with
 the current entity (`$bill->market`). Other settings include:
 
-- `variable('market_id')`: Provide any key from your model referring to the entity (`$bill->market_id`).
-- `static(3)`: Lock the record with the ID `3`. Also, pass a second parameter to the `make()` method to specify the
-  entity being referred to:
+-   `variable('market_id')`: Provide any key from your model referring to the entity (`$bill->market_id`).
+-   `static(3)`: Lock the record with the ID `3`. Also, pass a second parameter to the `make()` method to specify the
+    entity being referred to:
 
 ```php
 Account::make(\App\Models\Market::class, $this->market)
@@ -201,17 +205,17 @@ In this way, you do not need to provide any other functions.
 
 For calculation, use the following objects:
 
-- `Abather\MiniAccounting\Objects\Calculations\Equal`
-- `Abather\MiniAccounting\Objects\Calculations\Subtraction`
-- `Abather\MiniAccounting\Objects\Calculations\Addition`
-- `Abather\MiniAccounting\Objects\Calculations\Percentage`
+-   `Abather\MiniAccounting\Objects\Calculations\Equal`
+-   `Abather\MiniAccounting\Objects\Calculations\Subtraction`
+-   `Abather\MiniAccounting\Objects\Calculations\Addition`
+-   `Abather\MiniAccounting\Objects\Calculations\Percentage`
 
-For each object, provide `resource($resource, $attribute)`. In our previous example, `resource($this, "amount")` means
+For each object, provide `make($resource, $attribute)`. In our previous example, `make($this, "amount")` means
 the calculation will be on `$bill->amount`. Except for `Equal`, you must also define `factor`, which is the other side
 of each equation. `Factor` can be either dynamic or a static value:
 
-- `StaticFactor::make()->value(10)`: The other side of the equation is 10 (e.g., `$bill->amount - 10`).
-- `DynamicFactor::make()->resource($this, 'percentage')`: The other side of the equation is `$bill->percentage`.
+-   `StaticFactor::make(10)`: The other side of the equation is 10 (e.g., `$bill->amount - 10`).
+-   `DynamicFactor::make($this, 'percentage')`: The other side of the equation is `$bill->percentage`.
 
 After defining `defaultTransactions()`, use it by calling `executeDefaultTransactions()`. You are free to define as
 many `transactions` methods as needed. Keep in mind that the name of each method should end with `Transactions`, and you
@@ -223,7 +227,7 @@ If you ever use `__call($method, $parameters)` in
 
 your `Accountable` or `Referencable` models, please add the following lines:
 
-- Accountable:
+-   Accountable:
 
 ```php
 public function __call($method, $parameters)
@@ -237,7 +241,7 @@ public function __call($method, $parameters)
 }
 ```
 
-- Referencable:
+-   Referencable:
 
 ```php
 public function __call($method, $parameters)
@@ -251,7 +255,7 @@ public function __call($method, $parameters)
     if (in_array($method, ["deposit", 'withdraw'])) {
         return $this->createAccountMovement(strtoupper($method), ...$parameters);
     }
-    
+
     // Your code ...
     return parent::__call($method, $parameters);
 }
@@ -281,9 +285,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Abather](https://github.com/Abather)
-- [JoDeveloper](https://github.com/JoDeveloper)
-- [All Contributors](../../contributors)
+-   [Abather](https://github.com/Abather)
+-   [JoDeveloper](https://github.com/JoDeveloper)
+-   [All Contributors](../../contributors)
 
 ## License
 
